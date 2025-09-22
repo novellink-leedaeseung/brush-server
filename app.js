@@ -30,7 +30,7 @@ const svc = new MembersService(repo);
 // 라우터 장착
 app.use('/api/members', membersRoutes(svc));
 app.use('/api', photosRoutes(studentDir));
-app.use('/api/notifications', notificationRoutes());
+app.use(notificationRoutes);
 
 // 헬스/에러
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));

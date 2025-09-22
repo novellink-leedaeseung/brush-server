@@ -1,33 +1,48 @@
-// routes/notification.routes.js
-import { Router } from 'express';
-import { asyncHandler } from '../core/asyncHandler.js';
-import path from 'path';
-import fs from 'fs';
+// server/notification.routes.js
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
-export const notificationRoutes = (svc) => {
-  const r = Router();
+const NOTI_DIR = path.join(process.cwd(), 'public/assets/notification');
+const ALLOW_IMG = ['.jpg','.jpeg','.png','.webp','.gif'];
+const ALLOW_VID = ['.mp4','.webm','.mov'];
 
-  r.get(
-    '/',
-    asyncHandler(async (req, res) => {
-      const folder = path.join(process.cwd(), 'public', 'assets', 'notification');
+const notificationRoutes = express.Router();
 
-      // ✅ 허용 확장자 목록 (필요하면 추가 가능)
-      const allowedExt = ['.jpg', '.jpeg', '.png', '.gif', '.mp4', '.webm', '.ogg'];
+notificationRoutes.use(
+  '/assets/notification',
+  (req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+    next();
+  },
+  express.static(NOTI_DIR, {
+    maxAge: '1h',
+    etag: true,
+    acceptRanges: true,
+    fallthrough: true,
+  })
+);
 
-      try {
-        const files = fs
-          .readdirSync(folder)
-          .filter((f) => allowedExt.includes(path.extname(f).toLowerCase()));
+notificationRoutes.get('/api/notification/media', (req, res) => {
+  try {
+    const files = fs.readdirSync(NOTI_DIR);
+    const allow = [...ALLOW_IMG, ...ALLOW_VID];
+    const items = files
+      .filter((f) => allow.some((ext) => f.toLowerCase().endsWith(ext)))
+      .map((f) => {
+        const ext = path.extname(f).toLowerCase();
+        const type = ALLOW_IMG.includes(ext) ? 'image' : 'video';
+        return {
+          name: f,
+          type,
+          url: `/assets/notification/${encodeURIComponent(f)}`,
+        };
+      });
+    res.json(items);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: '목록 조회 실패' });
+  }
+});
 
-        // public 정적 경로 기준으로 응답
-        res.json(files.map((f) => `/assets/notification/${f}`));
-      } catch (err) {
-        console.error('❌ 폴더 읽기 실패:', err);
-        res.status(500).json({ error: '폴더 읽기 실패' });
-      }
-    })
-  );
-
-  return r;
-};
+module.exports = { notificationRoutes };
