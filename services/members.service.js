@@ -154,7 +154,7 @@ export class MembersService {
         const day = String(d.getDate()).padStart(2, '0');
         const todayString = `${y}-${m}-${day}`;
 
-        const DATA_DIR = path.join(process.cwd(), 'data');
+        const DATA_DIR = path.join(process.cwd(), '/public/assets/student/excel');
         await fs.ensureDir(DATA_DIR);
         const exportFilePath = path.join(DATA_DIR, `양치기록_${todayString}.xlsx`);
         await workbook.xlsx.writeFile(exportFilePath);

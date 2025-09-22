@@ -16,7 +16,7 @@ export const photosRoutes = (studentDir) => {
       const filePath = path.join(studentDir, `${safe}.jpg`);
       fs.writeFileSync(filePath, base64, 'base64');
 
-      res.json({ success: true, fileName: `${safe}.jpg`, filePath: `/assets/student/${safe}.jpg` });
+      res.json({ success: true, fileName: `${safe}.jpg`, filePath: `/assets/student/images/${safe}.jpg` });
     } catch (e) {
       res.status(500).json({ success: false, error: '사진 저장 중 오류' });
     }
