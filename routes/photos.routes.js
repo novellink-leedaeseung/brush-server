@@ -1,13 +1,13 @@
 // routes/photos.routes.js (현 로직 그대로 유지)
-import { Router } from 'express';
-import fs from 'fs';
-import path from 'path';
+const { Router } = require('express');
+const fs = require('fs');
+const path = require('path');
 
-export const photosRoutes = (studentDir) => {
+const photosRoutes = (studentDir) => {
   const r = Router();
   r.post('/save-photo', (req, res) => {
     try {
-      const { imageData, fileName } = req.body ?? {};
+      const { imageData, fileName } = req.body || {};
       if (!imageData || !fileName)
         return res.status(400).json({ success: false, error: '이미지 데이터와 파일명이 필요합니다.' });
 
@@ -23,3 +23,5 @@ export const photosRoutes = (studentDir) => {
   });
   return r;
 };
+
+module.exports = { photosRoutes };

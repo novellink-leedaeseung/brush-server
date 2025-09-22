@@ -1,12 +1,12 @@
 // routes/members.routes.js
-import {Router} from 'express';
-import {asyncHandler} from '../core/asyncHandler.js';
+const { Router } = require('express');
+const { asyncHandler } = require('../core/asyncHandler.js');
 
-export const membersRoutes = (svc) => {
+const membersRoutes = (svc) => {
     const r = Router();
 
     r.get('/', asyncHandler(async (req, res) => {
-        const page = Number(req.query.page ?? 1);
+        const page = Number(req.query.page || 1);
         const lunchOnly = req.query.lunchOnly === 'true' || req.query.lunchOnly === '1';
         const result = svc.list({page, pageSize: 5, lunchOnly});
         res.json({success: true, data: result});
@@ -37,3 +37,5 @@ export const membersRoutes = (svc) => {
 
     return r;
 };
+
+module.exports = { membersRoutes };

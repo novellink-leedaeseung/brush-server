@@ -1,7 +1,7 @@
-import path from "path";
-import fs from "fs-extra";
-import ExcelJS from "exceljs";
-import { Mutex } from "async-mutex";
+const path = require("path");
+const fs = require("fs-extra");
+const ExcelJS = require("exceljs");
+const { Mutex } = require("async-mutex");
 
 const mutex = new Mutex();
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -51,7 +51,7 @@ async function ensureWorkbook() {
 }
 
 // 학생 데이터 한 줄 추가
-export async function appendMemberToExcel(row) {
+async function appendMemberToExcel(row) {
   return mutex.runExclusive(async () => {
     try {
       await createBackup();
@@ -60,10 +60,10 @@ export async function appendMemberToExcel(row) {
 
       const newRowData = {
         timestamp: new Date().toISOString(),
-        name: row.name ?? "",
-        phone: row.phone ?? "",
-        gradeClass: row.gradeClass ?? "",
-        gender: row.gender ?? "",
+        name: row.name || "",
+        phone: row.phone || "",
+        gradeClass: row.gradeClass || "",
+        gender: row.gender || "",
       };
 
       ws.addRow(newRowData);
@@ -82,3 +82,5 @@ export async function appendMemberToExcel(row) {
     }
   });
 }
+
+module.exports = { appendMemberToExcel };

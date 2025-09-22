@@ -1,11 +1,11 @@
 // services/members.service.js
-import { toBool, assertCreateMember, isValidPhone } from '../core/validate.js';
-import { appendMemberToExcel } from '../utils/excelStore.js'; // (현재는 미사용, 필요 시 활용)
-import ExcelJS from 'exceljs';
-import path from 'path';
-import fs from 'fs-extra';
+const { toBool, assertCreateMember, isValidPhone } = require('../core/validate.js');
+const { appendMemberToExcel } = require('../utils/excelStore.js'); // (현재는 미사용, 필요 시 활용)
+const ExcelJS = require('exceljs');
+const path = require('path');
+const fs = require('fs-extra');
 
-export class MembersService {
+class MembersService {
     constructor(repo) {
         this.repo = repo;
     }
@@ -193,3 +193,5 @@ export class MembersService {
         return { filePath: exportFilePath, count: formattedMembers.length };
     }
 }
+
+module.exports = { MembersService };

@@ -1,10 +1,10 @@
 // repos/members.repo.json.js
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 
-export class JsonMemberRepo {
+class JsonMemberRepo {
     #map = new Map();
     #nextId = 1;
     #saveTimer = null;
@@ -231,3 +231,5 @@ export class JsonMemberRepo {
         }, 100); // 100ms 동안 변경 합치기
     }
 }
+
+module.exports = { JsonMemberRepo };
