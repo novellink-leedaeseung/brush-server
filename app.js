@@ -19,7 +19,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static('public'));
 
 // 학생 사진 폴더 보장
-const studentDir = path.join(__dirname, 'public', 'assets', 'student');
+const studentDir = path.join(__dirname, 'public', 'assets', 'student', 'images');
 fs.mkdirSync(studentDir, { recursive: true });
 
 // 레포/서비스 초기화
