@@ -23,7 +23,7 @@ notificationRoutes.use(
   }),
 );
 
-notificationRoutes.get('/api/notification/media', (req, res) => {
+notificationRoutes.get('/media', (req, res) => {
   try {
     const files = fs.readdirSync(NOTI_DIR);
     const allow = [...ALLOW_IMG, ...ALLOW_VID];

@@ -5,7 +5,7 @@ const path = require('path');
 
 const photosRoutes = (studentDir) => {
   const r = Router();
-  r.post('/save-photo', (req, res) => {
+  r.post('/', (req, res) => {
     try {
       const { imageData, fileName } = req.body || {};
       if (!imageData || !fileName)
