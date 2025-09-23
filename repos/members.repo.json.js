@@ -173,20 +173,21 @@ class JsonMemberRepo {
         return this.#map.get(Number(id)) ?? null;
     }
 
-    create(data) {
-        // 오늘 날짜가 아니면 오늘로 전환
-        const today = this.#getDateString();
-        if (this.#currentDate !== today) {
-            this.switchToDate(today);
-        }
-
-        const now = new Date().toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
-        const id = this.#issueId();
-        const row = {id, ...data, createdAt: now, updatedAt: now};
-        this.#map.set(id, row);
-        this.#persistSoon();
-        return row;
+    async create(data) {
+    // 오늘 날짜가 아니면 오늘로 전환
+    const today = this.#getDateString();
+    if (this.#currentDate !== today) {
+        await this.switchToDate(today);  // ✅ await 추가
     }
+
+    const now = new Date().toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
+    const id = this.#issueId();
+    const row = {id, ...data, createdAt: now, updatedAt: now};
+    this.#map.set(id, row);
+    this.#persistSoon();
+    return row;
+}
+
 
     update(id, patch) {
         const cur = this.get(id);
