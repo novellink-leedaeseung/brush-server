@@ -45,7 +45,12 @@ const baseDir = isPkg ? path.dirname(process.execPath) : __dirname;
 
 // public 폴더
 const publicDir = path.join(baseDir, 'public');
-app.use(express.static(publicDir));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/api/logo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'assets' ,'logo', 'logo.png'));
+});
+
 
 // 학생 사진 저장 폴더 보장
 const studentDir = path.join(publicDir, 'assets', 'student', 'images');
