@@ -94,9 +94,14 @@ class JsonMemberRepo {
       const txt = await fs.promises.readFile(filePath, 'utf8');
       seed = JSON.parse(txt);
       console.log(`[DB] Loaded ${seed.length} records from ${dateString}`);
-    } catch {
+    } catch (err) {
+      if (err.code === 'ENOENT') { // 파일이 없을 경우
+        console.log(`[DB] Creating new file for date: ${dateString}`);
+      } else { // 파일이 손상되었거나 다른 오류일 경우
+        console.warn(`[DB] File for ${dateString} may be corrupt. Resetting file.`, err.message);
+      }
       await fs.promises.writeFile(filePath, '[]', 'utf8');
-      console.log(`[DB] Created new file for ${dateString}`);
+      seed = []; // 새로 만들었으므로 seed는 비어있음
     }
 
     seed.forEach((e) => this.#addSeed(e));
