@@ -187,6 +187,16 @@ class JsonMemberRepo {
     return this.#map.get(Number(id)) ?? null;
   }
 
+  getByPhone(phone) {
+    this.#ensureTodayNonBlocking();
+
+    if (!phone) return null;
+    for (const row of this.#map.values()) {
+      if (row?.phone === phone) return row || null;
+    }
+    return null;
+  }
+
   update(id, patch) {
     this.#ensureTodayNonBlocking();
 

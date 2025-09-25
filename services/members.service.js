@@ -22,6 +22,10 @@ class MembersService {
         return this.repo.getByUserNo(id);
     }
 
+    getMemberByPhone(phone) {
+        return this.repo.getByPhone(phone);
+    }
+
     async create(body) {
         assertCreateMember(body);
         const data = {

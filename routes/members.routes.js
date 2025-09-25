@@ -13,9 +13,20 @@ const membersRoutes = (svc) => {
     }));
 
     r.get('/:id', asyncHandler(async (req, res) => {
-        const data = svc.getUserNo(req.params.id);
-        if (data) return res.status(404).json({success: false, error: '이 사용자는 이미 등록되었습니다.'});
-        res.json({success: true, data});
+        const userNo = req.params.id;
+
+        const memberByUserNo = svc.getUserNo(userNo);
+        const memberByPhone = svc.getMemberByPhone(userNo);
+
+        if (memberByUserNo) {
+            return res.status(404).json({ success: false, error: '이미 등록된 회원번호입니다.', member: memberByUserNo });
+        }
+
+        if (memberByPhone) {
+            return res.status(404).json({ success: false, error: '이미 등록된 전화번호입니다.', member: memberByPhone });
+        }
+
+        return res.json({ success: true, message: '등록 가능한 회원입니다.' });
     }));
 
     r.post('/', asyncHandler(async (req, res) => {
