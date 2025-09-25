@@ -7,12 +7,34 @@
 var app = require('../app');
 var debug = require('debug')('novelink-brush-server:server');
 var http = require('http');
+var fs = require('fs');
+var path = require('path');
+
+const isPkg = typeof process.pkg !== 'undefined';
+const basePath = isPkg ? path.dirname(process.execPath) : path.join(__dirname, '..');
+
+let config = {};
+try {
+  const configPath = path.join(basePath, 'server.config.json');
+  if (fs.existsSync(configPath)) {
+    const configFile = fs.readFileSync(configPath, 'utf8');
+    config = JSON.parse(configFile);
+  } else {
+    const defaultConfigPath = path.join(__dirname, '..', 'server.config.default.json');
+    if (fs.existsSync(defaultConfigPath)) {
+        const configFile = fs.readFileSync(defaultConfigPath, 'utf8');
+        config = JSON.parse(configFile);
+    }
+  }
+} catch (error) {
+  console.error('Error reading or parsing config file:', error);
+}
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.port || process.env.PORT || '3000');
 app.set('port', port);
 
 /**

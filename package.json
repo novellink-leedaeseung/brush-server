@@ -15,7 +15,8 @@
     "assets": [
       "views/**/*",
       "public/**/*",
-      "data/**/*"
+      "data/**/*",
+      "server.config.json"
     ],
     "outputPath": "dist"
   },
