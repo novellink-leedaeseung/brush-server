@@ -10,7 +10,7 @@ const ALLOW_VID = ['.mp4', '.webm', '.mov'];
 const notificationRoutes = express.Router();
 
 notificationRoutes.use(
-  'notification',
+  '/',
   (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
     next();
@@ -35,7 +35,7 @@ notificationRoutes.get('/media', (req, res) => {
         return {
           name: f,
           type,
-          url: `/notification/${encodeURIComponent(f)}`,
+          url: `/api/notification/${encodeURIComponent(f)}`,
         };
       });
     res.json(items);
