@@ -48,7 +48,7 @@ const publicDir = path.join(baseDir);
 app.use(express.static(path.join(__dirname)));
 
 app.get('/api/logo', (req, res) => {
-  res.sendFile(path.join(__dirname ,'logo', 'logo.png'));
+  res.sendFile(path.join(publicDir ,'logo', 'logo.png'));
 });
 
 
