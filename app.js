@@ -48,12 +48,12 @@ const publicDir = path.join(baseDir);
 app.use(express.static(path.join(__dirname)));
 
 app.get('/api/logo', (req, res) => {
-  res.sendFile(path.join(__dirname, 'assets' ,'logo', 'logo.png'));
+  res.sendFile(path.join(__dirname ,'logo', 'logo.png'));
 });
 
 
 // 학생 사진 저장 폴더 보장
-const studentDir = path.join(publicDir, 'assets', 'student', 'images');
+const studentDir = path.join(publicDir, 'student', 'images');
 fs.mkdirSync(studentDir, {recursive: true});
 
 // =========================

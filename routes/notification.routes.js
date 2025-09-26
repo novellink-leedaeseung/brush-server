@@ -3,14 +3,14 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-const NOTI_DIR = path.join(process.cwd(), 'assets/notification');
+const NOTI_DIR = path.join(process.cwd(), 'notification');
 const ALLOW_IMG = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 const ALLOW_VID = ['.mp4', '.webm', '.mov'];
 
 const notificationRoutes = express.Router();
 
 notificationRoutes.use(
-  '/assets/notification',
+  'notification',
   (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
     next();
@@ -35,7 +35,7 @@ notificationRoutes.get('/media', (req, res) => {
         return {
           name: f,
           type,
-          url: `/assets/notification/${encodeURIComponent(f)}`,
+          url: `/notification/${encodeURIComponent(f)}`,
         };
       });
     res.json(items);
