@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-const NOTI_DIR = path.join(process.cwd(), 'public/assets/notification');
+const NOTI_DIR = path.join(process.cwd(), 'assets/notification');
 const ALLOW_IMG = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 const ALLOW_VID = ['.mp4', '.webm', '.mov'];
 

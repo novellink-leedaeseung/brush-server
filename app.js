@@ -44,11 +44,11 @@ const isPkg = typeof process.pkg !== 'undefined';
 const baseDir = isPkg ? path.dirname(process.execPath) : __dirname;
 
 // public 폴더
-const publicDir = path.join(baseDir, 'public');
-app.use(express.static(path.join(__dirname, 'public')));
+const publicDir = path.join(baseDir);
+app.use(express.static(path.join(__dirname)));
 
 app.get('/api/logo', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'assets' ,'logo', 'logo.png'));
+  res.sendFile(path.join(__dirname, 'assets' ,'logo', 'logo.png'));
 });
 
 

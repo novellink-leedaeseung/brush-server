@@ -188,7 +188,7 @@ class MembersService {
         worksheet.addRows(formattedMembers);
 
         // 7) 오늘 날짜 파일명으로 저장
-        const DATA_DIR = path.join(process.cwd(), 'public', 'assets', 'student', 'excel');
+        const DATA_DIR = path.join(process.cwd(), 'assets', 'student', 'excel');
         await fs.ensureDir(DATA_DIR);
         const exportFilePath = path.join(DATA_DIR, `양치기록_${todayString}.xlsx`);
         await workbook.xlsx.writeFile(exportFilePath);
